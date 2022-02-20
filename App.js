@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { FAB } from "react-native-paper";
-import Item from "./components/Item";
+import ListItems from "./components/ListItems";
 import ModalAddData from "./components/ModalAddData";
 
 export default function App() {
@@ -9,7 +9,10 @@ export default function App() {
   const [showModalAddData, setShowModalAddData] = useState(false);
 
   const addBookHandler = (book) => {
-    if (book.title !== "" || parseInt(book.readingPercentage) <= 100) {
+    if (
+      book.title !== "" &&
+      (parseInt(book.readingPercentage) <= 100 || book.readingPercentage === "")
+    ) {
       setLibrary((currentLibrary) => [
         ...currentLibrary,
         {
@@ -20,17 +23,17 @@ export default function App() {
           coverPage: book.coverPage,
         },
       ]);
-      console.log(book)
+      console.log(book);
     } else {
       //No se han introducido datos correctamente
     }
 
-    setShowModalAddData(false)
+    setShowModalAddData(false);
   };
 
   return (
     <View style={styles.container}>
-      <Item />
+      <ListItems list={library} />
       <ModalAddData
         showModal={showModalAddData}
         closeModal={() => setShowModalAddData(false)}
@@ -50,13 +53,13 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    height: "100%",
     backgroundColor: "#B4BEC4",
-    alignItems: "center",
-    justifyContent: "center",
   },
   containerButton: {
-    marginTop: "10%",
     justifyContent: "flex-end",
+    alignItems: "flex-end",
+    paddingRight: 20,
   },
   button: {
     color: "white",

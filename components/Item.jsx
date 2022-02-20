@@ -1,19 +1,40 @@
 import { Image, View, Text, StyleSheet } from "react-native";
 
-const Item = () => {
+const Item = ({ itemData }) => {
+  const { title, description, readingPercentage, coverPage } = itemData;
+
   return (
     <View style={styles.containerItem}>
-      <Image
-        style={styles.imagen}
-        source={require("../assets/img/noImage.jpg")}
-      />
+      {coverPage != null ? (
+        <Image style={styles.imagen} source={{ uri: coverPage }} />
+      ) : (
+        <Image
+          style={styles.imagen}
+          source={require("../assets/img/noImage.jpg")}
+        />
+      )}
+
       <View style={styles.containerTitle}>
-        <Text style={styles.title}>Title</Text>
+        <Text style={styles.title} numberOfLines={1}>
+          {title}
+        </Text>
       </View>
+
       <View style={styles.containerData}>
-        <Text style={{ color: "white" }}>Esto es una descripcion</Text>
+        {description != "" ? (
+          <Text style={styles.description} numberOfLines={5}>
+            {description}
+          </Text>
+        ) : (
+          <Text style={{ color: "white" }}>Sin descripción</Text>
+        )}
+
         <View style={styles.containerCircle}>
-          <Text style={styles.circle}>100%</Text>
+          {readingPercentage != "" ? (
+            <Text style={styles.circle}>{readingPercentage}%</Text>
+          ) : (
+            <Text style={styles.circle}>0%</Text>
+          )}
         </View>
       </View>
     </View>
@@ -23,17 +44,17 @@ const Item = () => {
 const styles = StyleSheet.create({
   containerItem: {
     backgroundColor: "black",
-    color: "white",
-    width: "80%",
-    height: "80%",
-    maxHeight: "75%",
     borderRadius: 7,
     borderColor: "black",
     borderWidth: 2,
+    marginHorizontal: 8,
+    height: "95%",
+    width: 340,
+    
   },
   imagen: {
     height: "75%",
-    width: "100%",
+    maxWidth: "100%",
     borderTopRightRadius: 7,
     borderTopLeftRadius: 7,
   },
@@ -48,7 +69,16 @@ const styles = StyleSheet.create({
   title: {
     color: "white",
     fontWeight: "bold",
+    width: "100%",
     fontSize: 20,
+    paddingHorizontal: 20,
+    alignItems: "center",
+  },
+  description: {
+    color: "white",
+    width: "70%",
+    paddingLeft: "5%",
+    fontSize: 15,
   },
   containerData: {
     paddingTop: 20,

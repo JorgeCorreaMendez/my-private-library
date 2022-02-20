@@ -38,7 +38,7 @@ const ModalAddData = ({ showModal, closeModal, addItem }) => {
     addItem({
       title,
       bookDescription,
-      percentageRead: readingPercentage,
+      readingPercentage,
       coverPage,
     });
 

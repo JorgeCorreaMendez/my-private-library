@@ -1,7 +1,7 @@
 import { FlatList, Text, View, StyleSheet } from "react-native";
 import Item from "./Item";
 
-const ListItems = ({ list }) => {
+const ListItems = ({ list, onEdit }) => {
   return (
     <View style={styles.listContainer}>
       {list && list.length ? (
@@ -10,7 +10,7 @@ const ListItems = ({ list }) => {
           horizontal
           pagingEnabled
           renderItem={(itemData) => {
-            return <Item itemData={itemData.item} />;
+            return <Item itemData={itemData.item} onEdit={onEdit}/>;
           }}
         />
       ) : (

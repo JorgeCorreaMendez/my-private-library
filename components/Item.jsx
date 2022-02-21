@@ -1,10 +1,10 @@
 import { Image, View, Text, TouchableOpacity, StyleSheet } from "react-native";
 
-const Item = ({ itemData }) => {
+const Item = ({ itemData, onEdit }) => {
   const { title, description, readingPercentage, coverPage } = itemData;
 
   return (
-    <TouchableOpacity>
+    <TouchableOpacity onPress={() => onEdit(itemData)}>
       <View style={styles.containerItem}>
         {coverPage != null ? (
           <Image style={styles.imagen} source={{ uri: coverPage }} />

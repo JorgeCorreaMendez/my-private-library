@@ -1,43 +1,45 @@
-import { Image, View, Text, StyleSheet } from "react-native";
+import { Image, View, Text, TouchableOpacity, StyleSheet } from "react-native";
 
 const Item = ({ itemData }) => {
   const { title, description, readingPercentage, coverPage } = itemData;
 
   return (
-    <View style={styles.containerItem}>
-      {coverPage != null ? (
-        <Image style={styles.imagen} source={{ uri: coverPage }} />
-      ) : (
-        <Image
-          style={styles.imagen}
-          source={require("../assets/img/noImage.jpg")}
-        />
-      )}
-
-      <View style={styles.containerTitle}>
-        <Text style={styles.title} numberOfLines={1}>
-          {title}
-        </Text>
-      </View>
-
-      <View style={styles.containerData}>
-        {description != "" ? (
-          <Text style={styles.description} numberOfLines={5}>
-            {description}
-          </Text>
+    <TouchableOpacity>
+      <View style={styles.containerItem}>
+        {coverPage != null ? (
+          <Image style={styles.imagen} source={{ uri: coverPage }} />
         ) : (
-          <Text style={{ color: "white" }}>Sin descripción</Text>
+          <Image
+            style={styles.imagen}
+            source={require("../assets/img/noImage.jpg")}
+          />
         )}
 
-        <View style={styles.containerCircle}>
-          {readingPercentage != "" ? (
-            <Text style={styles.circle}>{readingPercentage}%</Text>
+        <View style={styles.containerTitle}>
+          <Text style={styles.title} numberOfLines={1}>
+            {title}
+          </Text>
+        </View>
+
+        <View style={styles.containerData}>
+          {description != "" ? (
+            <Text style={styles.description} numberOfLines={5}>
+              {description}
+            </Text>
           ) : (
-            <Text style={styles.circle}>0%</Text>
+            <Text style={{ color: "white" }}>Sin descripción</Text>
           )}
+
+          <View style={styles.containerCircle}>
+            {readingPercentage != "" ? (
+              <Text style={styles.circle}>{readingPercentage}%</Text>
+            ) : (
+              <Text style={styles.circle}>0%</Text>
+            )}
+          </View>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -48,9 +50,8 @@ const styles = StyleSheet.create({
     borderColor: "black",
     borderWidth: 2,
     marginHorizontal: 8,
-    height: "95%",
+    height: "90%",
     width: 340,
-    
   },
   imagen: {
     height: "75%",

@@ -3,10 +3,12 @@ import { StyleSheet, View } from "react-native";
 import { FAB } from "react-native-paper";
 import ListItems from "./components/ListItems";
 import ModalAddData from "./components/ModalAddData";
+import ModalErrorInput from "./components/ModalErrorInput";
 
 export default function App() {
   const [library, setLibrary] = useState([]);
   const [showModalAddData, setShowModalAddData] = useState(false);
+  const [showErrorInputModal, setShowErrorInputModal] = useState(false);
 
   const addBookHandler = (book) => {
     if (
@@ -25,7 +27,7 @@ export default function App() {
       ]);
       console.log(book);
     } else {
-      //No se han introducido datos correctamente
+      setShowErrorInputModal(true);
     }
 
     setShowModalAddData(false);
@@ -38,6 +40,10 @@ export default function App() {
         showModal={showModalAddData}
         closeModal={() => setShowModalAddData(false)}
         addItem={addBookHandler}
+      />
+      <ModalErrorInput
+        showError={showErrorInputModal}
+        closeError={() => setShowErrorInputModal(false)}
       />
       <View style={styles.containerButton}>
         <FAB

@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
   },
 
   emptyListContainer: {
-    width:"100%",
+    width: "100%",
     height: "90%",
     padding: 20,
     justifyContent: "center",

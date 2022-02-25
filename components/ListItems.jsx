@@ -2,11 +2,13 @@ import { FlatList, Text, View, StyleSheet } from "react-native";
 import Item from "./Item";
 
 const ListItems = ({ list, onEdit }) => {
+  console.log(list)
   return (
     <View style={styles.listContainer}>
       {list && list.length ? (
         <FlatList
           data={list}
+          keyExtractor={list.key}
           horizontal
           pagingEnabled
           renderItem={(itemData) => {

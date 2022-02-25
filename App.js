@@ -40,7 +40,15 @@ export default function App() {
     setShowModalEditData(true);
   };
 
-  const editBookHandler = (book) => {
+  const editBookHandler = (bookUpdate) => {
+    setLibrary((currentLibrary) => {
+      return currentLibrary.map((book) => {
+        if (book == bookUpdate) book.title = bookUpdate.title;
+      });
+    });
+
+    console.log(currentLibrary);
+
     setShowModalEditData(false);
   };
 

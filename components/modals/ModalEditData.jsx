@@ -16,26 +16,19 @@ import {
 } from "expo-image-picker";
 import { FAB } from "react-native-paper";
 
-const ModalEditData = ({
-  showModal,
-  bookEdit,
-  editItem,
-  deleteItem,
-  closeModal,
-}) => {
-  console.log(bookEdit);
-  const bookKey = bookEdit.key;
+const ModalEditData = ({showModal, bookEdit, editItem, deleteItem, closeModal}) => {
+  console.log(bookEdit)
+  const key = bookEdit.key;
   const [title, setTitle] = useState(bookEdit.title);
-  const [bookDescription, setBookDescription] = useState(
-    bookEdit.bookDescription
-  );
-  const [readingPercentage, setReadingPercentage] = useState(
-    bookEdit.readingPercentage
-  );
+  const [bookDescription, setBookDescription] = useState(bookEdit.bookDescription); 
+  const [readingPercentage, setReadingPercentage] = useState(bookEdit.readingPercentage);
   const [coverPage, setCoverPage] = useState(bookEdit.coverPage);
 
   const titleHandler = (inputText) => {
-    setTitle(inputText);
+    setTitle(prevState => {
+      return {...prevState, inputText};
+    });
+    
   };
 
   const bookDescriptionHandler = (inputText) => {
@@ -74,7 +67,7 @@ const ModalEditData = ({
     if (coverPage === "") setCoverPage(bookEdit.coverPage);
 
     editItem({
-      bookKey,
+      key,
       title,
       bookDescription,
       readingPercentage,
@@ -129,11 +122,11 @@ const ModalEditData = ({
           )}
 
           <View style={styles.buttonGroup}>
-            <Button title="Añadir" onPress={() => validateBook()} />
+            <Button title="Actualizar" onPress={() => validateBook()} />
             <FAB
               style={styles.delete}
               icon="delete"
-              onPress={() => deleteItem(bookKey)}
+              onPress={() => deleteItem(key)}
             />
             <Button title="Cancelar" onPress={() => closeModal()} />
           </View>
@@ -148,7 +141,6 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "transparent",
   },
   modal: {
     backgroundColor: "#E5F1F7",
@@ -160,14 +152,11 @@ const styles = StyleSheet.create({
   modalTitle: {
     fontWeight: "bold",
     fontSize: 15,
-    borderBottomWidth: 1,
   },
   columnInput: {
-    paddingHorizontal: 20,
     paddingVertical: 10,
     flexDirection: "row",
     justifyContent: "space-around",
-    alignItems: "center",
   },
   buttonGroup: {
     paddingVertical: 10,

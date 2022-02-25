@@ -129,7 +129,6 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "transparent",
   },
   modal: {
     backgroundColor: "#E5F1F7",
@@ -141,7 +140,6 @@ const styles = StyleSheet.create({
   modalTitle: {
     fontWeight: "bold",
     fontSize: 15,
-    borderBottomWidth: 1,
   },
   columnInput: {
     paddingHorizontal: 20,

@@ -16,14 +16,19 @@ import {
 } from "expo-image-picker";
 import { FAB } from "react-native-paper";
 
-const ModalAddData = ({ showModal, closeModal, addItem }) => {
-  const [title, setTitle] = useState("");
-  const [bookDescription, setBookDescription] = useState("");
-  const [readingPercentage, setReadingPercentage] = useState("");
-  const [coverPage, setCoverPage] = useState(null);
+const ModalEditData = ({showModal, bookEdit, editItem, deleteItem, closeModal}) => {
+  console.log(bookEdit)
+  const key = bookEdit.key;
+  const [title, setTitle] = useState(bookEdit.title);
+  const [bookDescription, setBookDescription] = useState(bookEdit.bookDescription); 
+  const [readingPercentage, setReadingPercentage] = useState(bookEdit.readingPercentage);
+  const [coverPage, setCoverPage] = useState(bookEdit.coverPage);
 
   const titleHandler = (inputText) => {
-    setTitle(inputText);
+    setTitle(prevState => {
+      return {...prevState, inputText};
+    });
+    
   };
 
   const bookDescriptionHandler = (inputText) => {
@@ -32,20 +37,6 @@ const ModalAddData = ({ showModal, closeModal, addItem }) => {
 
   const percentageReadHandler = (inputText) => {
     setReadingPercentage(inputText);
-  };
-
-  const validateBook = () => {
-    addItem({
-      title,
-      bookDescription,
-      readingPercentage,
-      coverPage,
-    });
-
-    setTitle("");
-    setBookDescription("");
-    setReadingPercentage("");
-    setCoverPage(null);
   };
 
   const pickImageGalery = async () => {
@@ -67,11 +58,27 @@ const ModalAddData = ({ showModal, closeModal, addItem }) => {
       setCoverPage(imageResult.uri);
     }
   };
+
+  const validateBook = () => {
+    if (title === "") setTitle(bookEdit.title);
+    if (bookDescription === "") setBookDescription(bookEdit.bookDescription);
+    if (readingPercentage === "")
+      setReadingPercentage(bookEdit.readingPercentage);
+    if (coverPage === "") setCoverPage(bookEdit.coverPage);
+
+    editItem({
+      key,
+      title,
+      bookDescription,
+      readingPercentage,
+      coverPage,
+    });
+  };
   return (
     <Modal visible={showModal} animationType="slide" transparent={true}>
       <View style={styles.containerModal}>
         <View style={styles.modal}>
-          <Text style={styles.modalTitle}>Nuevo Libro</Text>
+          <Text style={styles.modalTitle}>Editar Libro</Text>
           <TextInput
             value={title}
             onChangeText={titleHandler}
@@ -114,8 +121,13 @@ const ModalAddData = ({ showModal, closeModal, addItem }) => {
             </TouchableOpacity>
           )}
 
-          <View style={styles.columnInput}>
-            <Button title="Añadir" onPress={() => validateBook()} />
+          <View style={styles.buttonGroup}>
+            <Button title="Actualizar" onPress={() => validateBook()} />
+            <FAB
+              style={styles.delete}
+              icon="delete"
+              onPress={() => deleteItem(key)}
+            />
             <Button title="Cancelar" onPress={() => closeModal()} />
           </View>
         </View>
@@ -129,7 +141,6 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "transparent",
   },
   modal: {
     backgroundColor: "#E5F1F7",
@@ -141,13 +152,16 @@ const styles = StyleSheet.create({
   modalTitle: {
     fontWeight: "bold",
     fontSize: 15,
-    borderBottomWidth: 1,
   },
   columnInput: {
-    paddingHorizontal: 20,
     paddingVertical: 10,
     flexDirection: "row",
     justifyContent: "space-around",
+  },
+  buttonGroup: {
+    paddingVertical: 10,
+    flexDirection: "row",
+    justifyContent: "space-between",
     alignItems: "center",
   },
   previewImg: {
@@ -155,6 +169,10 @@ const styles = StyleSheet.create({
     height: 200,
     borderRadius: 5,
   },
+  delete: {
+    color: "white",
+    backgroundColor: "red",
+  },
 });
 
-export default ModalAddData;
+export default ModalEditData;

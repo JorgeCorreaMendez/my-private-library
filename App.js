@@ -2,11 +2,16 @@ import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { FAB } from "react-native-paper";
 import ListItems from "./components/ListItems";
-import ModalAddData from "./components/ModalAddData";
+import ModalAddData from "./components/modals/ModalAddData";
+import ModalEditData from "./components/modals/ModalEditData";
+import ModalErrorInput from "./components/modals/ModalErrorInput";
 
 export default function App() {
   const [library, setLibrary] = useState([]);
+  const [userEdit, setUserEdit] = useState({});
   const [showModalAddData, setShowModalAddData] = useState(false);
+  const [showModalEditData, setShowModalEditData] = useState(false);
+  const [showModalErrorInput, setShowModalErrorInput] = useState(false);
 
   const addBookHandler = (book) => {
     if (
@@ -23,21 +28,57 @@ export default function App() {
           coverPage: book.coverPage,
         },
       ]);
-      console.log(book);
     } else {
-      //No se han introducido datos correctamente
+      setShowModalErrorInput(true);
     }
 
     setShowModalAddData(false);
   };
 
+  const onEdit = (book) => {
+    setUserEdit(book);
+    setShowModalEditData(true);
+  };
+
+  const editBookHandler = (bookUpdate) => {
+    setLibrary((currentLibrary) => {
+      return currentLibrary.map((book) => {
+        if (book == bookUpdate) book.title = bookUpdate.title;
+      });
+    });
+
+    console.log(currentLibrary);
+
+    setShowModalEditData(false);
+  };
+
+  const deleteBookHandler = (key) => {
+    setLibrary((currentLibrary) => {
+      return currentLibrary.filter((book) => book.key != key);
+    });
+
+    setShowModalEditData(false);
+  };
+
   return (
     <View style={styles.container}>
-      <ListItems list={library} />
+      <ListItems list={library} onEdit={onEdit} />
       <ModalAddData
         showModal={showModalAddData}
         closeModal={() => setShowModalAddData(false)}
         addItem={addBookHandler}
+      />
+      <ModalEditData
+        showModal={showModalEditData}
+        closeModal={() => setShowModalEditData(false)}
+        bookEdit={userEdit}
+        editItem={editBookHandler}
+        deleteItem={deleteBookHandler}
+      />
+
+      <ModalErrorInput
+        showError={showModalErrorInput}
+        closeError={() => setShowModalErrorInput(false)}
       />
       <View style={styles.containerButton}>
         <FAB

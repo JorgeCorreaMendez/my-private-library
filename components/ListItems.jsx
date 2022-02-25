@@ -1,16 +1,18 @@
 import { FlatList, Text, View, StyleSheet } from "react-native";
 import Item from "./Item";
 
-const ListItems = ({ list }) => {
+const ListItems = ({ list, onEdit }) => {
+  console.log(list)
   return (
     <View style={styles.listContainer}>
       {list && list.length ? (
         <FlatList
           data={list}
+          keyExtractor={list.key}
           horizontal
           pagingEnabled
           renderItem={(itemData) => {
-            return <Item itemData={itemData.item} />;
+            return <Item itemData={itemData.item} onEdit={onEdit}/>;
           }}
         />
       ) : (
@@ -29,7 +31,7 @@ const styles = StyleSheet.create({
   },
 
   emptyListContainer: {
-    width:"100%",
+    width: "100%",
     height: "90%",
     padding: 20,
     justifyContent: "center",
